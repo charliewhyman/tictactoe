@@ -1,3 +1,25 @@
 html {
   font-family: 'helvetica neue', helvetica, arial, sans-serif;
 }
+
+#gameBoardContainer {
+  display: inline-block;
+  }
+
+#gameBoardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 5em);
+  grid-template-rows: repeat(3, 5em);
+  grid-gap: 0.25em;
+}
+  
+.gameBoardSquare {
+  background-color: blanchedalmond;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-family: Arial;
+  font-size: 3rem;
+  font-weight: bold;
+  background: white;
+}
