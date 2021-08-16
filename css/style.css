@@ -15,11 +15,11 @@ html {
   
 .gameBoardSquare {
   background-color: blanchedalmond;
+  cursor: pointer;
   justify-content: center;
   align-items: center;
   display: flex;
   font-family: Arial;
   font-size: 3rem;
-  font-weight: bold;
-  background: white;
+  font-weight: bold;  
 }
