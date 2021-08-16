@@ -4,7 +4,7 @@
 let turnValue = 1;
 
 //create a blank array for the gameBoard
-const gameBoardArray = Array(9).fill('')
+let gameBoardArray = Array(9).fill('')
 
 //define the winning combinations by array positions in a 9x9 grid
 let winArrays = [
@@ -32,9 +32,21 @@ let selectedPlayer = player1;
 
 // create a module for the gameBoard
 const displayController = (() => {
+    const grid = document.getElementById('gameBoardGrid');
+
+    const showPlayer = () => {
+        const playerIndicator = document.getElementById('playerIndicator');
+        playerIndicator.textContent = `Current player: ${selectedPlayer.name} (${selectedPlayer.piece})`;
+        };
+
+    const nextTurn = () => {
+        const turnIndicator = document.getElementById('turnIndicator');
+        turnIndicator.textContent = `Turn: ${turnValue}`;
+        turnValue++
+            };
+
     //create a function to render the contents of the gameBoard array
     const create = () => {
-        const grid = document.getElementById('gameBoardGrid');
         for (let i in gameBoardArray) {
             let singleSquare = document.createElement('div');
             singleSquare.textContent = gameBoardArray[i];
@@ -43,43 +55,45 @@ const displayController = (() => {
             grid.appendChild(singleSquare);
         };
     };
-        const showPlayer = () => {
-        const playerIndicator = document.getElementById('playerIndicator');
-        playerIndicator.textContent = `Current player: ${selectedPlayer.piece}`;
-        };
-
-        const switchPlayer = () => {
-        if (selectedPlayer.name === 'Player 1') {
-            selectedPlayer = player2;
-        } else {
-            selectedPlayer = player1;
-            };
-        };
-
-        const nextTurn = () => {
-        const turnIndicator = document.getElementById('turnIndicator');
-        turnIndicator.textContent = `Turn: ${turnValue}`;
-        switchPlayer();
+       
+    const switchPlayer = () => {
+    if (selectedPlayer.name === 'Player 1') {
+        selectedPlayer = player2;
         showPlayer();
-            };
+    } else {
+        selectedPlayer = player1;
+        showPlayer();
+        };
+    };
 
-        const endGame = () => {
-            console.log('GAME END')
-            };
+    const endGame = () => {
+        console.log('GAME END')
+        };
+
+    const restart = () => {
+        displayController.showPlayer();
+        displayController.nextTurn();
+        let squares = document.querySelectorAll('.gameBoardSquare');
+        squares.forEach((square) => {
+            square.textContent = '';
+        });
+    };
 
     return {   
         create,
         switchPlayer,
         showPlayer,
         nextTurn,
-        endGame
+        endGame,
+        restart,
     };
 })();
 
+displayController.showPlayer();
+displayController.nextTurn();
 displayController.create();
 
-
-const gameBoard = (() => {
+const gameController = (() => {
     let squareCountArray = Array(9).fill(0);
     
     //create a function to check the player's current array against the win combinations
@@ -88,9 +102,9 @@ const gameBoard = (() => {
             let checker = (arr, target) => target.every(v => arr.includes(v));
             let winStatus = checker(selectedPlayer.array, winArray)
             if (winStatus === true) {
-                winIndicator.textContent = `${selectedPlayer.name} wins in ${turnValue} turns!`;
+                winIndicator.textContent = `${selectedPlayer.name} wins in ${turnValue} rounds!`;
                 return true;  
-            } 
+            }; 
         };
     };
 
@@ -98,9 +112,10 @@ const gameBoard = (() => {
     const checkGameEnd = () => {
         if (checkWin() || squareCountArray.every(e => e === 1)) {
             displayController.endGame();
+            gameController.restart;
         } else {
             displayController.nextTurn();
-            turnValue++;
+            displayController.switchPlayer();
         }
     };
 
@@ -118,19 +133,38 @@ const gameBoard = (() => {
                 selectedPlayer.array[clickedElement.id] = parseInt(clickedElement.id);
                 squareCountArray[clickedElement.id] = 1;
 
-                console.log(squareCountArray)
                 checkWin();
                 checkGameEnd();
             };
         });
     };
+
+    const restart = () => {
+        turnValue = 1;
+        player1.array = Array(9).fill('');
+        player2.array = Array(9).fill('');
+        gameBoardArray = Array(9).fill('');
+        squareCountArray = Array(9).fill(0);
+        selectedPlayer = player1;
+    };
+
+    const addButtonEventListener  = () => {
+        const button = document.getElementById('newGame');
+        button.addEventListener('click', (event) => {
+        gameController.restart(); 
+        displayController.restart();
+         console.log(gameBoardArray)
+        });
+    };
+    
     return {   
         create,
         checkWin,
-        ///messages
+        restart,
+        addButtonEventListener
     };
-    }
-
-)();
+})();
     
-    gameBoard.create();
+gameController.addButtonEventListener();
+displayController.create();
+gameController.create();
