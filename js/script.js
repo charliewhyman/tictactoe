@@ -83,10 +83,22 @@ displayController.nextTurn();
 
 
 const gameBoard = (() => {
-    //create a function to render the contents of the gameBoard array
     let squareCountArray = Array(9).fill(0);
-  
+    const checkWin = () => {
+        for (const winArray of winArrays) { // You can use `let` instead of `const` if you like
+            let checker = (arr, target) => target.every(v => arr.includes(v));
+            let winStatus = checker(selectedArray, winArray)
+            if (winStatus === true) {
+                console.log('true')
+                winIndicator.textContent = `${selectedPiece} WINS!`;
+                
+            } else {
+                console.log('false')
+            }
+        };
+    };
     const create = () => {
+        //create a function to render the contents of the gameBoard array
         const grid = document.getElementById('gameBoardGrid');
         grid.addEventListener('click', (event) => {
             let clickedElement = event.target;
