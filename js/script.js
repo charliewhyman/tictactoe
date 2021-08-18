@@ -91,7 +91,6 @@ const displayController = (() => {
 
 displayController.showPlayer();
 displayController.nextTurn();
-displayController.create();
 
 const gameController = (() => {
     let squareCountArray = Array(9).fill(0);

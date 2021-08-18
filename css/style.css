@@ -2,24 +2,60 @@ html {
   font-family: 'helvetica neue', helvetica, arial, sans-serif;
 }
 
+body {
+  margin: 0px;
+}
+
+h1 {
+  width: 100%;
+  background-color: #282A35;
+  color: white;
+  text-align: center;
+
+}
+
+#headerContainer {
+  margin: auto;
+  text-align: center;
+  }
+
+  button {
+    padding: 4px 8px;
+    border: none;
+    font: inherit;
+    font-size: large;
+    background-color: #009879;
+    cursor: pointer;
+    color: white;
+    border-radius: 5px;
+  }
+
+  p {
+    font-size: large;
+  }
+
 #gameBoardContainer {
-  display: inline-block;
+  display: flex;
   }
 
 #gameBoardGrid {
+  width: 50%;
+  margin: auto;
   display: grid;
-  grid-template-columns: repeat(3, 5em);
-  grid-template-rows: repeat(3, 5em);
-  grid-gap: 0.25em;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-gap: 20px;
 }
   
 .gameBoardSquare {
+
+  padding-bottom: 100%;
   background-color: blanchedalmond;
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  display: flex;
   font-family: Arial;
   font-size: 3rem;
   font-weight: bold;  
 }
+
